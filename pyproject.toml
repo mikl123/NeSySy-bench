@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nesy-data-gen"
+version = "1.0.0"
+description = "NeSySy: synthetic neurosymbolic task generation with controlled constraint complexity, and the learners compared in the accompanying paper"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Mykhailo Buleshnyi" },
+    { name = "Zsolt Zombori" },
+    { name = "Michael Benedikt" },
+]
+requires-python = ">=3.12"
+
+[project.urls]
+Repository = "https://github.com/mikl123/NeSySy-bench"
+Issues = "https://github.com/mikl123/NeSySy-bench/issues"
+Paper = "https://arxiv.org/abs/2611.19597"
+
+[tool.setuptools.packages.find]
+include = ["nesy_data_gen*", "nesy_approaches*"]
+exclude = ["*.tests", "*.tests.*"]
+
+[tool.black]
+# Format for the oldest supported Python, so black never emits newer-only syntax.
+target-version = ["py312"]
+
+[tool.pytest.ini_options]
+norecursedirs = ["experiments", "examples", "output", "mlruns"]

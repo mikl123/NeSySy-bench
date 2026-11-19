@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1" # weekly smoke test, Mondays 03:00 UTC
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pre-commit
+      - run: pre-commit run --all-files --show-diff-on-failure
+
+  test:
+    if: github.event_name != 'schedule'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, python: "3.12" }
+          - { os: macos-latest, python: "3.13" }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            constraints.txt
+      - name: Install pinned dependencies (same script as in the README)
+        run: PYTHON=python ./install.sh
+      - name: Unit tests
+        run: .venv/bin/python -m pytest nesy_data_gen/tests nesy_approaches/tests
+      - name: Library install (checks pyproject.toml)
+        run: .venv/bin/python -m pip install --no-deps -e .
+
+  smoke:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            constraints.txt
+      - run: PYTHON=python ./install.sh
+      - run: ./smoke_test.sh
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: smoke-paper-results
+          path: output/smoke/paper_results/
+          if-no-files-found: warn

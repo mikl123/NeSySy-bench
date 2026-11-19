@@ -1,0 +1,33 @@
+name: Release
+
+# Pushing a tag such as v1.0.0 builds the package and publishes a GitHub Release.
+# With the Zenodo GitHub integration enabled, Zenodo archives each release and mints a DOI.
+# Not published to PyPI: PyPI rejects packages with git-URL dependencies (PiShield).
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install build
+          python -m build
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME" dist/*
+          --title "NeSySy-bench $GITHUB_REF_NAME"
+          --generate-notes
+          --verify-tag

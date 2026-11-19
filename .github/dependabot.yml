@@ -1,0 +1,9 @@
+# Keeps the GitHub Actions used in .github/workflows up to date.
+# Python dependencies are deliberately not updated: requirements.txt and constraints.txt
+# pin the exact versions the paper's results were produced with.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

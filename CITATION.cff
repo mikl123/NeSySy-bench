@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use NeSySy, please cite the paper listed under preferred-citation."
+type: software
+title: "NeSySy-bench"
+abstract: >-
+  NeSySy generates synthetic neurosymbolic learning tasks: random constraints over input and
+  output variables (propositional, bounded intervals over reals, or linear inequalities over
+  reals) together with datasets whose input-output pairs satisfy them, with parameters that
+  control how hard the task is. It also contains the learners compared in the accompanying paper.
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/mikl123/NeSySy-bench"
+url: "https://github.com/mikl123/NeSySy-bench"
+keywords:
+  - neurosymbolic learning
+  - benchmark
+  - synthetic data generation
+  - constraints
+  - SAT
+  - SMT
+authors:
+  - given-names: Mykhailo
+    family-names: Buleshnyi
+    affiliation: "Ukrainian Catholic University"
+  - given-names: Zsolt
+    family-names: Zombori
+    affiliation: "HUN-REN Alfréd Rényi Institute of Mathematics; KU Leuven"
+  - given-names: Michael
+    family-names: Benedikt
+    affiliation: "University of Oxford"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23640674
+    description: "Archived version of the code"
+preferred-citation:
+  type: article
+  title: "Synthetic Neurosymbolic Task Generation with Controlled Constraint Complexity"
+  authors:
+    - given-names: Mykhailo
+      family-names: Buleshnyi
+    - given-names: Zsolt
+      family-names: Zombori
+    - given-names: Michael
+      family-names: Benedikt
+  journal: "arXiv preprint arXiv:2611.19597"
+  year: 2026
+  doi: 10.48550/arXiv.2611.19597
+  url: "https://arxiv.org/abs/2611.19597"

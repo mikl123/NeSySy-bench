@@ -1,0 +1,26 @@
+# Direct dependencies of the experiments, pinned to the versions the paper's
+# results were produced with. Transitive dependencies are pinned in
+# constraints.txt. install.sh installs PyTorch from the CPU-only index.
+numpy==2.4.4
+pandas==2.3.3
+torch==2.11.0
+scikit-learn==1.8.0
+scikit-multilearn==0.2.0
+pydantic==2.13.0
+pyyaml==6.0.3
+tqdm==4.67.3
+mlflow==3.11.1
+python-sat==1.9.dev2
+cnfgen==0.9.5
+z3-solver==4.16.0.0
+matplotlib==3.10.8
+# PiShield (CCN+ / DRL layers), fork used for the paper, installed by install.sh from
+# git+https://github.com/mikl123/PiShield.git@3a7dae2af0b0eecff0fe19f3d6d229b5453b577b
+pishield==1.0.0
+# imported by PiShield's CCN+ code (pishield/propositional_requirements/util.py)
+pytest==9.0.3
+# DeepProbLog circuits for distant supervision (Figure 7)
+pydeeplog==4.1.1
+# executes the notebooks in experiments/analysis that draw the paper's figures and tables
+nbconvert==7.17.1
+ipykernel==7.2.0
